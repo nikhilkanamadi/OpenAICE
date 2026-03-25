@@ -18,7 +18,7 @@ An adapter-based, recommendation-first control plane that unifies observability,
 
 <div class="hero-buttons">
   <a href="getting-started/installation/" class="md-button md-button--primary">Get Started →</a>
-  <a href="https://github.com/your-username/openaice" class="md-button">View on GitHub</a>
+  <a href="https://github.com/nikhilkanamadi/OpenAICE-auto-infrastructure-configuration-engine" class="md-button">View on GitHub</a>
 </div>
 
 </div>

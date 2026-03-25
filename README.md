@@ -5,8 +5,8 @@
   <p>An adapter-based, recommendation-first control plane that unifies observability, orchestration, and policy across Kubernetes, Slurm, and hybrid AI infrastructure environments.</p>
 
   <p>
-    <a href="https://your-username.github.io/openaice/"><img src="https://img.shields.io/badge/docs-MkDocs-blue" alt="Docs"></a>
-    <a href="https://github.com/your-username/openaice/actions"><img src="https://img.shields.io/badge/build-passing-success" alt="Build Status"></a>
+    <a href="https://nikhilkanamadi.github.io/OpenAICE-auto-infrastructure-configuration-engine/"><img src="https://img.shields.io/badge/docs-MkDocs-blue" alt="Docs"></a>
+    <a href="https://github.com/nikhilkanamadi/OpenAICE-auto-infrastructure-configuration-engine/actions"><img src="https://img.shields.io/badge/build-passing-success" alt="Build Status"></a>
     <a href="https://pypi.org/project/openaice/"><img src="https://img.shields.io/pypi/v/openaice.svg" alt="PyPI"></a>
     <a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" alt="License"></a>
   </p>
@@ -31,7 +31,7 @@ Unlike traditional autoscale controllers that operate as black boxes, OpenAICE p
 
 ```bash
 # Recommended: Install via Poetry
-git clone https://github.com/your-username/openaice.git
+git clone https://github.com/nikhilkanamadi/OpenAICE-auto-infrastructure-configuration-engine.git
 cd openaice
 pip install poetry
 poetry install
@@ -68,7 +68,7 @@ Explanations:
 
 ## Documentation
 
-Full documentation is available at **[https://your-username.github.io/openaice/](https://your-username.github.io/openaice/)**, including:
+Full documentation is available at **[https://nikhilkanamadi.github.io/OpenAICE-auto-infrastructure-configuration-engine/](https://nikhilkanamadi.github.io/OpenAICE-auto-infrastructure-configuration-engine/)**, including:
 - Architecture Overview & Mermaid Diagrams
 - Writing Custom Adapters
 - Policy Engine Configuration
