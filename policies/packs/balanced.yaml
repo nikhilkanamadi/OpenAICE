@@ -1,0 +1,26 @@
+# Balanced Policy Pack — default objective weights and guardrails
+# Reference: 05 (section 2, Mode A)
+
+policy_mode: balanced
+
+thresholds:
+  target_p95_ms: 200
+  target_p99_ms: 500
+  target_gpu_utilization: 0.55
+  min_queue_depth_for_scale: 10
+  idle_throughput_threshold: 1.0
+
+objective_weights:
+  latency: 0.30
+  throughput: 0.20
+  gpu_utilization: 0.20
+  cost: 0.10
+  reliability: 0.20
+
+guardrails:
+  min_confidence_for_action: 0.75
+  max_staleness_seconds: 120
+  cooldown_seconds: 300
+  max_replica_jump: 3
+  max_traffic_shift_pct: 20
+  blast_radius_limit: 5

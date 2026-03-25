@@ -1,0 +1,47 @@
+# Sample configuration — Kubernetes inference environment
+# Usage: aicp serve --config configs/sample-k8s.yaml
+
+prometheus:
+  enabled: true
+  url: http://localhost:9090
+  scrape_interval_seconds: 30
+
+otel:
+  enabled: false
+
+gpu_metrics:
+  enabled: true
+  prometheus_url: http://localhost:9090
+
+kubernetes:
+  enabled: true
+  namespaces:
+    - default
+    - prod
+    - ml-serving
+
+slurm:
+  enabled: false
+
+generic_serving:
+  enabled: true
+  prometheus_url: http://localhost:9090
+
+policy_mode: balanced
+control_mode: recommend_with_approval
+
+objectives:
+  latency: 0.35
+  throughput: 0.20
+  gpu_utilization: 0.20
+  cost: 0.10
+  reliability: 0.15
+
+guardrails:
+  min_confidence_for_action: 0.75
+  max_staleness_seconds: 120
+  cooldown_seconds: 300
+
+rules_path: policies/rules.yaml
+policy_pack_path: policies/packs/balanced.yaml
+api_port: 8000

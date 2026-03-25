@@ -1,0 +1,49 @@
+# K8s Inference Queue Pressure — Replay Scenario
+# Expected: scale_replicas recommendation
+records:
+  - source_type: replay
+    entity_type: service
+    entity_id: inference-api
+    observed_at: "2026-03-24T12:00:00"
+    scheduler_domain: kubernetes
+    workload_type: online_inference
+    health_state: healthy
+    service_state: active
+    owner_scope: prod
+    latency_p95_ms: 320
+    latency_p99_ms: 580
+    throughput: 145
+    queue_depth: 42
+    error_rate: 0.008
+    replica_count: 3
+    available_replicas: 3
+    desired_replicas: 3
+    confidence_score: 0.91
+
+  - source_type: replay
+    entity_type: deployment
+    entity_id: inference-api-deployment
+    observed_at: "2026-03-24T12:00:00"
+    scheduler_domain: kubernetes
+    workload_type: online_inference
+    health_state: healthy
+    owner_scope: prod
+    replica_count: 3
+    available_replicas: 3
+    desired_replicas: 3
+    cpu_utilization: 0.72
+    memory_utilization: 0.65
+    gpu_utilization: 0.68
+    confidence_score: 0.92
+
+  - source_type: replay
+    entity_type: gpu
+    entity_id: gpu-node01-idx0
+    observed_at: "2026-03-24T12:00:05"
+    scheduler_domain: kubernetes
+    health_state: healthy
+    gpu_utilization: 0.68
+    gpu_memory_used: 0.75
+    gpu_memory_total: 81920.0
+    temperature_celsius: 72.0
+    confidence_score: 0.95

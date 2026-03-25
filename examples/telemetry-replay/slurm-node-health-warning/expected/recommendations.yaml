@@ -1,0 +1,6 @@
+# Expected recommendations for Slurm node health warning scenario
+records:
+  - entity_id: gpu-node-17
+    action_type: quarantine_node
+    risk_level: high
+    min_confidence: 0.85

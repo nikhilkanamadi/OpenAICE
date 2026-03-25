@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240">
+  <!-- Outer hexagon -->
+  <polygon points="120,15 205,52 205,148 120,225 35,148 35,52" fill="none" stroke="#000000" stroke-width="4"/>
+  <!-- Inner crystal -->
+  <polygon points="120,45 175,77 175,163 120,195 65,163 65,77" fill="none" stroke="#000000" stroke-width="2.5" opacity="0.6"/>
+  <!-- Cross lines -->
+  <line x1="65" y1="120" x2="175" y2="120" stroke="#000000" stroke-width="1.5" opacity="0.4"/>
+  <line x1="120" y1="45" x2="120" y2="195" stroke="#000000" stroke-width="1.5" opacity="0.4"/>
+  <!-- Diagonals -->
+  <line x1="65" y1="77" x2="175" y2="163" stroke="#000000" stroke-width="1" opacity="0.25"/>
+  <line x1="175" y1="77" x2="65" y2="163" stroke="#000000" stroke-width="1" opacity="0.25"/>
+  <!-- Central node -->
+  <circle cx="120" cy="120" r="16" fill="none" stroke="#000000" stroke-width="3"/>
+  <circle cx="120" cy="120" r="7" fill="#000000"/>
+  <!-- Vertex nodes -->
+  <circle cx="120" cy="45" r="5.5" fill="#000000" opacity="0.85"/>
+  <circle cx="175" cy="77" r="5.5" fill="#000000" opacity="0.85"/>
+  <circle cx="175" cy="163" r="5.5" fill="#000000" opacity="0.85"/>
+  <circle cx="120" cy="195" r="5.5" fill="#000000" opacity="0.85"/>
+  <circle cx="65" cy="163" r="5.5" fill="#000000" opacity="0.85"/>
+  <circle cx="65" cy="77" r="5.5" fill="#000000" opacity="0.85"/>
+  <!-- Mid nodes -->
+  <circle cx="148" cy="61" r="3" fill="#000000" opacity="0.45"/>
+  <circle cx="175" cy="120" r="3" fill="#000000" opacity="0.45"/>
+  <circle cx="148" cy="179" r="3" fill="#000000" opacity="0.45"/>
+  <circle cx="92" cy="179" r="3" fill="#000000" opacity="0.45"/>
+  <circle cx="65" cy="120" r="3" fill="#000000" opacity="0.45"/>
+  <circle cx="92" cy="61" r="3" fill="#000000" opacity="0.45"/>
+  <!-- Snowflake spokes from center ring -->
+  <line x1="120" y1="104" x2="120" y2="72" stroke="#000000" stroke-width="1.2" opacity="0.5"/>
+  <line x1="120" y1="136" x2="120" y2="168" stroke="#000000" stroke-width="1.2" opacity="0.5"/>
+  <line x1="106" y1="112" x2="82" y2="96" stroke="#000000" stroke-width="1.2" opacity="0.5"/>
+  <line x1="134" y1="112" x2="158" y2="96" stroke="#000000" stroke-width="1.2" opacity="0.5"/>
+  <line x1="106" y1="128" x2="82" y2="144" stroke="#000000" stroke-width="1.2" opacity="0.5"/>
+  <line x1="134" y1="128" x2="158" y2="144" stroke="#000000" stroke-width="1.2" opacity="0.5"/>
+</svg>

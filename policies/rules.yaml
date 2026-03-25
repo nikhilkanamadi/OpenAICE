@@ -1,0 +1,89 @@
+# Decision Rules for AICP v1
+# Reference: 05_policy_engine_design_decision_rules_and_safety_guardrails.md
+
+thresholds:
+  target_p95_ms: 200
+  target_p99_ms: 500
+  min_queue_depth_for_scale: 10
+  min_queue_depth_for_batching: 5
+  target_gpu_utilization: 0.55
+  idle_throughput_threshold: 1.0
+  no_action_confidence_threshold: 0.5
+
+rules:
+  # Rule 1: Online inference under-allocated
+  - rule_id: infer_scale_up_on_queue_pressure
+    scenario_family: kubernetes_online_inference
+    preconditions:
+      - "workload_type == online_inference"
+      - "scheduler_domain == kubernetes"
+    required_signals:
+      - latency_p95_ms
+      - queue_depth
+    recommended_action:
+      action_type: scale_replicas
+      parameters:
+        direction: up
+        max_increment: 3
+    risk_level: medium
+    minimum_confidence: 0.75
+    reason: "p95 latency exceeded target ({entity_id}) and queue depth rising — recommend scaling replicas"
+    expected_benefit: "Reduced queueing delay and improved p95 latency"
+
+  # Rule 2: GPU underutilized but queue is high
+  - rule_id: infer_adjust_batching_before_scale_out
+    scenario_family: llm_or_inference_serving
+    preconditions: []
+    required_signals:
+      - queue_depth
+    recommended_action:
+      action_type: adjust_batching
+      parameters:
+        direction: increase
+    risk_level: medium
+    minimum_confidence: 0.80
+    reason: "Queue depth high but GPU utilization low for {entity_id} — adjust batching/concurrency before scaling out"
+    expected_benefit: "Improved GPU utilization and reduced queue depth without additional replicas"
+
+  # Rule 3: HPC node health degraded
+  - rule_id: hpc_quarantine_unhealthy_node
+    scenario_family: hpc_or_training
+    preconditions:
+      - "scheduler_domain == slurm"
+    required_signals:
+      - health_state
+    recommended_action:
+      action_type: quarantine_node
+      parameters: {}
+    risk_level: high
+    minimum_confidence: 0.85
+    reason: "Node {entity_id} health is degraded — recommend quarantine to prevent job failures"
+    expected_benefit: "Prevented job failures on unhealthy hardware"
+
+  # Rule 4: Idle expensive endpoint
+  - rule_id: enable_scale_to_zero_for_idle_service
+    scenario_family: managed_or_kserve_serving
+    preconditions:
+      - "workload_type == online_inference"
+    required_signals:
+      - throughput
+    recommended_action:
+      action_type: enable_scale_to_zero
+      parameters: {}
+    risk_level: low
+    minimum_confidence: 0.80
+    reason: "Service {entity_id} has near-zero throughput — recommend enabling scale-to-zero to reduce cost"
+    expected_benefit: "Cost savings from scaling down idle resources"
+
+  # Rule 5: Low confidence — recommend no action
+  - rule_id: recommend_no_action_low_confidence
+    scenario_family: any
+    preconditions: []
+    required_signals: []
+    recommended_action:
+      action_type: recommend_no_action
+      parameters: {}
+    risk_level: low
+    minimum_confidence: 0.0
+    reason: "Insufficient confidence to recommend action for {entity_id} — observing"
+    expected_benefit: "Safety through inaction when data is insufficient"

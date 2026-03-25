@@ -1,0 +1,53 @@
+# Slurm Node Health Warning — Replay Scenario
+# Expected: quarantine_node recommendation
+records:
+  - source_type: replay
+    entity_type: node
+    entity_id: gpu-node-17
+    observed_at: "2026-03-24T12:00:00"
+    scheduler_domain: slurm
+    workload_type: hpc_research
+    health_state: degraded
+    owner_scope: genomics-lab
+    cpu_utilization: 0.12
+    memory_utilization: 0.34
+    confidence_score: 0.88
+
+  - source_type: replay
+    entity_type: gpu
+    entity_id: gpu-node17-idx0
+    observed_at: "2026-03-24T12:00:05"
+    scheduler_domain: slurm
+    workload_type: hpc_research
+    health_state: critical
+    gpu_utilization: 0.05
+    gpu_memory_used: 0.03
+    temperature_celsius: 95.0
+    ecc_errors: 42
+    confidence_score: 0.86
+
+  - source_type: replay
+    entity_type: job
+    entity_id: slurm-job-88912
+    observed_at: "2026-03-24T12:00:10"
+    scheduler_domain: slurm
+    workload_type: distributed_training
+    job_state: running
+    health_state: healthy
+    owner_scope: genomics-lab
+    gpu_utilization: 0.71
+    gpu_memory_used: 0.84
+    assigned_gpu_count: 8
+    confidence_score: 0.91
+
+  - source_type: replay
+    entity_type: queue
+    entity_id: slurm-gpu-queue
+    observed_at: "2026-03-24T12:00:10"
+    scheduler_domain: slurm
+    workload_type: hpc_research
+    health_state: healthy
+    queue_depth: 14
+    pending_jobs: 8
+    active_jobs: 6
+    confidence_score: 0.93

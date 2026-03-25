@@ -1,0 +1,6 @@
+# Expected recommendations for K8s inference queue pressure scenario
+records:
+  - entity_id: inference-api
+    action_type: scale_replicas
+    risk_level: medium
+    min_confidence: 0.75

@@ -1,0 +1,110 @@
+site_name: OpenAICE
+site_description: Auto Infrastructure Configuration Engine — adapter-based, recommendation-first control plane for modern AI infrastructure
+site_url: https://your-username.github.io/openaice/
+repo_url: https://github.com/your-username/openaice
+repo_name: openaice
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  custom_dir: docs/overrides
+  palette:
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: black
+      accent: white
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: white
+      accent: black
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+  font:
+    text: Helvetica Neue
+    code: JetBrains Mono
+  logo: assets/logo-dark.svg
+  favicon: assets/logo-dark.svg
+  icon:
+    repo: fontawesome/brands/github
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - navigation.instant
+    - navigation.tracking
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+    - toc.follow
+
+plugins:
+  - search
+  - autorefs
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/your-username/openaice
+  generator: false
+
+extra_css:
+  - stylesheets/extra.css
+
+nav:
+  - Home: index.md
+  - Getting Started:
+    - Installation: getting-started/installation.md
+    - Quick Start: getting-started/quickstart.md
+    - Configuration: getting-started/configuration.md
+  - Architecture:
+    - Overview: architecture/overview.md
+    - Canonical State Model: architecture/canonical-state-model.md
+    - Policy Engine: architecture/policy-engine.md
+    - Adapters: architecture/adapters.md
+  - User Guide:
+    - CLI Reference: guide/cli.md
+    - API Reference: guide/api.md
+    - Policy Rules: guide/policy-rules.md
+    - Replay & Testing: guide/replay.md
+  - Adapters:
+    - Prometheus: adapters/prometheus.md
+    - Kubernetes: adapters/kubernetes.md
+    - Slurm: adapters/slurm.md
+    - GPU Metrics: adapters/gpu-metrics.md
+    - Writing Custom Adapters: adapters/custom.md
+  - Roadmap: roadmap.md
+  - Contributing: contributing.md

@@ -1,0 +1,3 @@
+"""OpenAICE — Auto Infrastructure Configuration Engine."""
+
+__version__ = "0.1.0"

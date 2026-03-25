@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240">
+  <defs>
+    <linearGradient id="frost" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#cccccc;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- Outer hexagon -->
+  <polygon points="120,10 210,50 210,150 120,230 30,150 30,50" fill="none" stroke="#ffffff" stroke-width="3"/>
+  <!-- Inner crystal structure -->
+  <polygon points="120,40 180,75 180,165 120,200 60,165 60,75" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.7"/>
+  <!-- Circuit traces - horizontal -->
+  <line x1="60" y1="120" x2="180" y2="120" stroke="#ffffff" stroke-width="1.5" opacity="0.5"/>
+  <!-- Circuit traces - vertical -->
+  <line x1="120" y1="40" x2="120" y2="200" stroke="#ffffff" stroke-width="1.5" opacity="0.5"/>
+  <!-- Circuit traces - diagonals -->
+  <line x1="60" y1="75" x2="180" y2="165" stroke="#ffffff" stroke-width="1" opacity="0.3"/>
+  <line x1="180" y1="75" x2="60" y2="165" stroke="#ffffff" stroke-width="1" opacity="0.3"/>
+  <!-- Central node -->
+  <circle cx="120" cy="120" r="18" fill="none" stroke="#ffffff" stroke-width="2.5"/>
+  <circle cx="120" cy="120" r="8" fill="#ffffff"/>
+  <!-- Corner nodes -->
+  <circle cx="120" cy="40" r="5" fill="#ffffff" opacity="0.8"/>
+  <circle cx="180" cy="75" r="5" fill="#ffffff" opacity="0.8"/>
+  <circle cx="180" cy="165" r="5" fill="#ffffff" opacity="0.8"/>
+  <circle cx="120" cy="200" r="5" fill="#ffffff" opacity="0.8"/>
+  <circle cx="60" cy="165" r="5" fill="#ffffff" opacity="0.8"/>
+  <circle cx="60" cy="75" r="5" fill="#ffffff" opacity="0.8"/>
+  <!-- Mid-edge nodes -->
+  <circle cx="150" cy="57" r="3" fill="#ffffff" opacity="0.5"/>
+  <circle cx="180" cy="120" r="3" fill="#ffffff" opacity="0.5"/>
+  <circle cx="150" cy="183" r="3" fill="#ffffff" opacity="0.5"/>
+  <circle cx="90" cy="183" r="3" fill="#ffffff" opacity="0.5"/>
+  <circle cx="60" cy="120" r="3" fill="#ffffff" opacity="0.5"/>
+  <circle cx="90" cy="57" r="3" fill="#ffffff" opacity="0.5"/>
+  <!-- Snowflake accent lines from center -->
+  <line x1="120" y1="102" x2="120" y2="70" stroke="#ffffff" stroke-width="1" opacity="0.6"/>
+  <line x1="120" y1="138" x2="120" y2="170" stroke="#ffffff" stroke-width="1" opacity="0.6"/>
+  <line x1="104" y1="111" x2="80" y2="95" stroke="#ffffff" stroke-width="1" opacity="0.6"/>
+  <line x1="136" y1="111" x2="160" y2="95" stroke="#ffffff" stroke-width="1" opacity="0.6"/>
+  <line x1="104" y1="129" x2="80" y2="145" stroke="#ffffff" stroke-width="1" opacity="0.6"/>
+  <line x1="136" y1="129" x2="160" y2="145" stroke="#ffffff" stroke-width="1" opacity="0.6"/>
+</svg>
