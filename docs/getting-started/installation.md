@@ -10,7 +10,7 @@
 === "Poetry (recommended)"
 
     ```bash
-    git clone https://github.com/nikhilkanamadi/OpenAICE-auto-infrastructure-configuration-engine.git
+    git clone https://github.com/nikhilkanamadi/OpenAICE.git
     cd openaice
     pip install poetry
     poetry install
@@ -19,7 +19,7 @@
 === "pip"
 
     ```bash
-    git clone https://github.com/nikhilkanamadi/OpenAICE-auto-infrastructure-configuration-engine.git
+    git clone https://github.com/nikhilkanamadi/OpenAICE.git
     cd openaice
     pip install -e .
     ```

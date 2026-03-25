@@ -5,8 +5,8 @@
   <p>An adapter-based, recommendation-first control plane that unifies observability, orchestration, and policy across Kubernetes, Slurm, and hybrid AI infrastructure environments.</p>
 
   <p>
-    <a href="https://nikhilkanamadi.github.io/OpenAICE-auto-infrastructure-configuration-engine/"><img src="https://img.shields.io/badge/docs-MkDocs-blue" alt="Docs"></a>
-    <a href="https://github.com/nikhilkanamadi/OpenAICE-auto-infrastructure-configuration-engine/actions"><img src="https://img.shields.io/badge/build-passing-success" alt="Build Status"></a>
+    <a href="https://nikhilkanamadi.github.io/OpenAICE/"><img src="https://img.shields.io/badge/docs-MkDocs-blue" alt="Docs"></a>
+    <a href="https://github.com/nikhilkanamadi/OpenAICE/actions"><img src="https://img.shields.io/badge/build-passing-success" alt="Build Status"></a>
     <a href="https://pypi.org/project/openaice/"><img src="https://img.shields.io/pypi/v/openaice.svg" alt="PyPI"></a>
     <a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" alt="License"></a>
   </p>
@@ -31,7 +31,7 @@ Unlike traditional autoscale controllers that operate as black boxes, OpenAICE p
 
 ```bash
 # Recommended: Install via Poetry
-git clone https://github.com/nikhilkanamadi/OpenAICE-auto-infrastructure-configuration-engine.git
+git clone https://github.com/nikhilkanamadi/OpenAICE.git
 cd openaice
 pip install poetry
 poetry install
@@ -68,11 +68,132 @@ Explanations:
 
 ## Documentation
 
-Full documentation is available at **[https://nikhilkanamadi.github.io/OpenAICE-auto-infrastructure-configuration-engine/](https://nikhilkanamadi.github.io/OpenAICE-auto-infrastructure-configuration-engine/)**, including:
+Full documentation is available at **[https://nikhilkanamadi.github.io/OpenAICE/](https://nikhilkanamadi.github.io/OpenAICE/)**, including:
 - Architecture Overview & Mermaid Diagrams
 - Writing Custom Adapters
 - Policy Engine Configuration
 - API & CLI Reference
+
+## Reference Architecture
+
+OpenAICE sits between your **observability stack** and your **infrastructure controllers**, normalizing signals from heterogeneous systems into a single canonical state graph:
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                     TELEMETRY SOURCES                           │
+│                                                                 │
+│  Prometheus ──┐   dcgm-exporter ──┐   Slurm CLI/REST ──┐       │
+│  (PromQL)     │   (GPU metrics)   │   (squeue/sinfo)   │       │
+│               ▼                   ▼                    ▼       │
+│         ┌──────────┐       ┌──────────┐         ┌──────────┐   │
+│         │ Telemetry│       │   GPU    │         │  Runtime │   │
+│         │ Adapter  │       │ Adapter  │         │  Adapter │   │
+│         └────┬─────┘       └────┬─────┘         └────┬─────┘   │
+│              │                  │                    │          │
+│              ▼                  ▼                    ▼          │
+│        ┌─────────────────────────────────────────────────┐      │
+│        │              NORMALIZER                         │      │
+│        │    Raw records → Validated StateFragments       │      │
+│        └─────────────────────┬───────────────────────────┘      │
+│                              ▼                                  │
+│        ┌─────────────────────────────────────────────────┐      │
+│        │              STATE BUS                          │      │
+│        │    Merge fragments by entity_id, track          │      │
+│        │    freshness, build canonical entity graph      │      │
+│        └─────────────────────┬───────────────────────────┘      │
+│                              ▼                                  │
+│        ┌─────────────────────────────────────────────────┐      │
+│        │         WORKLOAD CLASSIFIER                     │      │
+│        │    Assign scenario family per entity            │      │
+│        └─────────────────────┬───────────────────────────┘      │
+│                              ▼                                  │
+│        ┌─────────────────────────────────────────────────┐      │
+│        │           POLICY ENGINE                         │      │
+│        │    Match YAML rules × classified entities       │      │
+│        │    Generate candidate recommendations           │      │
+│        └─────────────────────┬───────────────────────────┘      │
+│                              ▼                                  │
+│        ┌─────────────────────────────────────────────────┐      │
+│        │            GUARDRAILS                           │      │
+│        │    Confidence · Freshness · Cooldown · Blast    │      │
+│        └─────────────────────┬───────────────────────────┘      │
+│                              ▼                                  │
+│              ┌───────────┬────────────┬──────────┐              │
+│              │ CLI/Rich  │ REST API   │ Audit    │              │
+│              │ Tables    │ (FastAPI)  │ JSONL    │              │
+│              └───────────┴────────────┴──────────┘              │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+## Infrastructure Integrations
+
+OpenAICE uses a **pluggable adapter architecture** to interconnect with diverse AI infrastructure systems. Each adapter translates tool-specific APIs into canonical state fragments — the core engine never sees raw payloads.
+
+### Telemetry Adapters (Read-Only)
+
+| System | Adapter | Connection Method | Data Collected | Canonical Entities |
+|--------|---------|-------------------|----------------|-------------------|
+| **Prometheus** | `PrometheusAdapter` | PromQL HTTP API (`/api/v1/query`) | p95/p99 latency, throughput, error rate, queue depth | `service` |
+| **NVIDIA dcgm-exporter** | `GPUMetricsAdapter` | Prometheus scrape of DCGM metrics | GPU utilization, memory, temperature, ECC errors, power | `gpu` |
+| **OpenTelemetry** *(v1.1)* | `OTelAdapter` | OTLP gRPC/HTTP receiver | Traces, metrics, spans | `service`, `deployment` |
+
+### Runtime State Adapters
+
+| System | Adapter | Connection Method | Data Collected | Canonical Entities |
+|--------|---------|-------------------|----------------|-------------------|
+| **Kubernetes** | `KubernetesAdapter` | K8s API (in-cluster or kubeconfig) | Deployments, Nodes, Services, resource utilization | `deployment`, `node`, `service` |
+| **Slurm** | `SlurmAdapter` | CLI (`squeue`/`sinfo`/`sacct`), REST (`slurmrestd`), or mock YAML | Jobs, nodes, queues, partitions, GPU assignments | `job`, `node`, `queue` |
+| **Generic Serving** | `GenericServingAdapter` | Prometheus metrics from any serving framework | Standard serving metrics (latency, RPS, errors) | `service` |
+
+### How Adapters Feed the Core Engine
+
+1. **Adapters emit StateFragments** — partial updates with a `source_type`, `entity_id`, and observed fields
+2. **Normalizer validates** each fragment against the canonical schema (Pydantic models)
+3. **State Bus merges** fragments by `entity_id` — newer data wins, stale data is rejected
+4. **Workload Classifier** tags each entity with a scenario family (e.g., `online_inference`, `hpc_research`)
+5. **Policy Engine** evaluates YAML rules against classified entities and generates recommendations
+6. **Guardrails** enforce safety constraints (confidence threshold, data freshness, cooldown, blast-radius)
+
+### Cross-System Correlation
+
+The canonical state model enables **cross-system reasoning** that individual tools cannot provide:
+
+```
+Prometheus (latency spike)  ──┐
+                              ├──→  Service Entity  ──→  Policy: "scale_replicas"
+Kubernetes (low replicas)   ──┘
+
+dcgm-exporter (ECC errors)  ──┐
+                               ├──→  Node Entity    ──→  Policy: "quarantine_node"
+Slurm (node state degraded) ──┘
+
+Prometheus (zero throughput) ──┐
+                               ├──→  Service Entity  ──→  Policy: "enable_scale_to_zero"
+Kubernetes (idle deployment) ──┘
+```
+
+## Scenario Families
+
+OpenAICE covers **8 scenario families** spanning the full spectrum of modern AI workloads:
+
+| Scenario Family | Infrastructure | Key Adapters | Example Recommendations |
+|----------------|---------------|-------------|------------------------|
+| **K8s Online Inference** | Kubernetes | Prometheus + K8s | Scale replicas on queue pressure |
+| **Batch Inference** | Kubernetes | Prometheus + K8s | Adjust job priority or quota |
+| **Distributed Training** | Kubernetes / Slurm | GPU + Slurm + K8s | Checkpoint frequency, node replacement |
+| **HPC / Research** | Slurm | Slurm + GPU | Quarantine unhealthy nodes, preempt jobs |
+| **LLM Serving** | Kubernetes | Prometheus + GPU + K8s | Adjust batching before scale-out |
+| **Managed Cloud** | Cloud ML Platforms | Generic Serving | Enable scale-to-zero for idle services |
+| **Hybrid (K8s + Slurm)** | Mixed | All adapters | Unified policy across scheduler domains |
+| **Governance / Multi-Tenant** | Any | K8s + Slurm | Fairness-based quota adjustments |
+
+### Control Modes
+
+| Mode | Behavior | Recommended For |
+|------|----------|----------------|
+| `observe_only` | Generate recommendations as informational output only | Initial deployment, evaluation |
+| `recommend_with_approval` | Actionable recommendations requiring human approval | Production monitoring |
+| `controlled_auto_act` *(v2)* | Low/medium risk actions auto-execute; high/critical require approval | Trusted environments |
 
 ## Roadmap
 

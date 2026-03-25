@@ -1,8 +1,8 @@
 site_name: OpenAICE
 site_description: Auto Infrastructure Configuration Engine — adapter-based, recommendation-first control plane for modern AI infrastructure
-site_url: https://nikhilkanamadi.github.io/OpenAICE-auto-infrastructure-configuration-engine/
-repo_url: https://github.com/nikhilkanamadi/OpenAICE-auto-infrastructure-configuration-engine
-repo_name: nikhilkanamadi/OpenAICE-auto-infrastructure-configuration-engine
+site_url: https://nikhilkanamadi.github.io/OpenAICE/
+repo_url: https://github.com/nikhilkanamadi/OpenAICE
+repo_name: nikhilkanamadi/OpenAICE
 edit_uri: edit/main/docs/
 
 theme:
@@ -78,7 +78,7 @@ markdown_extensions:
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/nikhilkanamadi/OpenAICE-auto-infrastructure-configuration-engine
+      link: https://github.com/nikhilkanamadi/OpenAICE
   generator: false
 
 extra_css:
