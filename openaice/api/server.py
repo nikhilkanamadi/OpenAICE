@@ -16,6 +16,7 @@ from typing import Any
 
 import yaml
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from openaice.schemas.config import OpenAICEConfig
@@ -34,6 +35,14 @@ def create_app(config: OpenAICEConfig | None = None) -> FastAPI:
         title="OpenAICE — Auto Infrastructure Configuration Engine",
         description="Adapter-based, recommendation-first control plane for modern AI infrastructure.",
         version="0.1.0",
+    )
+
+    # Enable CORS for VS Code extension and other clients
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_methods=["*"],
+        allow_headers=["*"],
     )
 
     # Shared state

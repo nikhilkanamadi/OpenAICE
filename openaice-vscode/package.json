@@ -1,0 +1,120 @@
+{
+  "name": "openaice",
+  "displayName": "OpenAICE",
+  "description": "AI Infrastructure Control Plane — view canonical state, recommendations, and run replay scenarios from VS Code",
+  "version": "0.1.0",
+  "publisher": "NikhilKanamadi",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nikhilkanamadi/OpenAICE"
+  },
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other",
+    "Visualization"
+  ],
+  "keywords": [
+    "ai",
+    "infrastructure",
+    "kubernetes",
+    "slurm",
+    "gpu",
+    "mlops",
+    "observability"
+  ],
+  "icon": "resources/icon.png",
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "openaice",
+          "title": "OpenAICE",
+          "icon": "resources/openaice.svg"
+        }
+      ]
+    },
+    "views": {
+      "openaice": [
+        {
+          "id": "openaice.state",
+          "name": "Infrastructure State"
+        },
+        {
+          "id": "openaice.recommendations",
+          "name": "Recommendations"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "openaice.connect",
+        "title": "OpenAICE: Set API URL"
+      },
+      {
+        "command": "openaice.refresh",
+        "title": "OpenAICE: Refresh",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "openaice.replay",
+        "title": "OpenAICE: Run Replay Scenario"
+      },
+      {
+        "command": "openaice.viewRecommendation",
+        "title": "OpenAICE: View Recommendation Detail"
+      },
+      {
+        "command": "openaice.startServer",
+        "title": "OpenAICE: Start Backend Server"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "openaice.refresh",
+          "when": "view == openaice.state || view == openaice.recommendations",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "OpenAICE",
+      "properties": {
+        "openaice.apiUrl": {
+          "type": "string",
+          "default": "http://localhost:8000",
+          "description": "URL of the OpenAICE API server"
+        },
+        "openaice.refreshInterval": {
+          "type": "number",
+          "default": 30,
+          "description": "Auto-refresh interval in seconds (0 to disable)"
+        },
+        "openaice.autoConnect": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically connect to the API on startup"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint src --ext ts",
+    "package": "vsce package",
+    "publish": "vsce publish"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/vscode": "^1.85.0",
+    "@vscode/vsce": "^2.22.0",
+    "typescript": "^5.3.0"
+  }
+}

@@ -14,9 +14,11 @@ OpenAICE is actively developed. Here's what's planned for future versions.
 - [x] FastAPI REST API
 - [x] Replay-based golden tests
 - [x] Docker support
+- [x] VS Code Extension (sidebar, recommendations, replay, status bar)
 
 ## v1.1 (Near-term)
 
+- [ ] VS Code Chat Participant (`@openaice` in agentic chat)
 - [ ] GCM integration adapter (Meta GPU Cluster Monitoring)
 - [ ] OpenTelemetry Collector receiver adapter
 - [ ] Prometheus metrics exporter for OpenAICE itself

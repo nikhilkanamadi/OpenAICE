@@ -195,9 +195,37 @@ OpenAICE covers **8 scenario families** spanning the full spectrum of modern AI 
 | `recommend_with_approval` | Actionable recommendations requiring human approval | Production monitoring |
 | `controlled_auto_act` *(v2)* | Low/medium risk actions auto-execute; high/critical require approval | Trusted environments |
 
+## VS Code Extension
+
+OpenAICE includes a **VS Code extension** that brings infrastructure state and recommendations directly into your editor.
+
+### Features
+
+| Feature | Description |
+|---------|-------------|
+| **Infrastructure State Sidebar** | Entities grouped by type (service, gpu, node, job) with health indicators |
+| **Recommendations Panel** | Active recommendations with risk levels and confidence scores |
+| **Recommendation Detail** | Click any recommendation for a rich webview with signals, objectives, and action parameters |
+| **Replay Scenarios** | `Cmd+Shift+P` → "OpenAICE: Run Replay" — test without live infrastructure |
+| **Status Bar** | Live connection state, entity count, and recommendation count |
+| **Auto-Refresh** | Configurable polling interval (default: 30s) |
+
+### Install
+
+```bash
+# From the packaged VSIX
+code --install-extension openaice-vscode/openaice-0.1.0.vsix
+
+# Then start the backend
+python -m openaice.cli.cli serve --config configs/sample-k8s.yaml
+```
+
+The extension auto-connects to `http://localhost:8000` and displays state in the sidebar.
+
 ## Roadmap
 
-- **v1.0 (Current)**: Recommendation Engine, Canonical State Model, K8s/Slurm Replay testing.
+- **v1.0 (Current)**: Recommendation Engine, Canonical State Model, K8s/Slurm Replay testing, VS Code Extension.
+- **v1.1**: Chat participant (`@openaice` in VS Code chat), Grafana dashboards, WebSocket streaming.
 - **v2.0**: Actuation adapters (moving from "recommend" to "auto-act"), persistent State Bus.
 - **v3.0**: Cross-cluster hybrid bursting, LLM-based policy generation.
 
